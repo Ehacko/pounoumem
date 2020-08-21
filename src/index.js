@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu } = require('electron');
+const { app, BrowserWindow, Menu, shell } = require('electron');
 const path = require('path');
 const log = require('electron-log');
 const {autoUpdater} = require("electron-updater");
@@ -17,21 +17,48 @@ function sendStatusToWindow(text) {
   log.info(text);
   win.webContents.send('message', text);
 }
-
+let temp = [
+  {
+    label: 'aide',
+    submenu: [
+      {
+        label:'Apprendre plus', 
+        click() { 
+          shell.openExternal('www.pounoumenm.fr')
+        } 
+      },
+      {
+        label:'Documentation', 
+        click() { 
+          shell.openExternal('http://www.pounoumenm.fr/documentation')
+        } 
+      },
+      {
+        label:'Communauté', 
+        click() {
+          shell.openExternal('http://www.pounoumenm.fr/forum')
+        }
+      }
+    ]
+  }
+]
+let menu = Menu.buildFromTemplate(temp)
+//Menu.setApplicationMenu(menu); 
 const createWindow = () => {
-  // Create the browser window.
+  // Create the browser window
+  
   win = new BrowserWindow({
     width: 1000,
     height: 600,
-    icon: path.join(__dirname, '/img/logo.png'),
+    icon: '../logo.ico',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
     },
   });
-
   // and load the index.html of the app.
   win.loadFile(path.join(__dirname, 'index.html'));
-
+  //win.loadURL('http://www.pounoumem.fr/');
+  
   // Open the DevTools.
   //win.webContents.openDevTools();
 };
