@@ -42,14 +42,15 @@ let temp = [
   }
 ]
 let menu = Menu.buildFromTemplate(temp)
-//Menu.setApplicationMenu(menu); 
+//Menu.setApplicationMenu(menu);
+app.dock.setIcon(path.join(__dirname, '/img/logo.png'));
 const createWindow = () => {
   // Create the browser window
   
   win = new BrowserWindow({
     width: 1000,
     height: 600,
-    icon: path.join(__dirname, '/img/logo.ico'),
+    icon: path.join(__dirname, '/img/logo.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
     },
