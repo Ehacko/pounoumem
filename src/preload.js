@@ -11,6 +11,12 @@ window.addEventListener('DOMContentLoaded', () => {
   }
   let appinfo = require('../package.json')
   replaceText(`app-name`, appinfo.name)
+  replaceText(`appTitle`, appinfo.name)
   replaceText(`app-version`, appinfo.version)
+  let frame = document.getElementById("ThisIsSparta");
+  frame.removeAttribute("id");
+  frame.onload = () => {
+    document.body.removeChild(document.body.children[0]);
+  }
 
 })

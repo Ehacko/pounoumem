@@ -1,7 +1,8 @@
-const { app, BrowserWindow, Menu, shell, autoUpdater } = require('electron');
+const { app, BrowserWindow, Menu, shell, autoUpdater, nativeImage, dialog } = require('electron');
+const electron = require('electron');
 const path = require('path');
 const log = require('electron-log');
-
+console.log(electron);
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
   app.quit();
@@ -9,7 +10,31 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
 log.info('App starting...');
+const server = 'https://pounoumem.vercel.app/';
+const url = `${server}/update/${process.platform}/${app.getVersion()}`;
+autoUpdater.setFeedURL({ url });
+setInterval(() => {
+  autoUpdater.checkForUpdates()
+}, 60000);
+require('update-electron-app')();
 
+autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
+  const dialogOpts = {
+    type: 'info',
+    buttons: ['Restart', 'Later'],
+    title: 'Application Update',
+    message: process.platform === 'win32' ? releaseNotes : releaseName,
+    detail: "A new version has been downloaded. Redémarrez l'application pour appliquer les mises à jour."
+  }
+
+  dialog.showMessageBox(dialogOpts).then((returnValue) => {
+    if (returnValue.response === 0) autoUpdater.quitAndInstall();
+  })
+})
+autoUpdater.on('error', message => {
+  console.error('There was a problem updating the application');
+  console.error(message);
+})
 let win;
 
 function sendStatusToWindow(text) {
@@ -43,21 +68,20 @@ let temp = [
 ]
 let menu = Menu.buildFromTemplate(temp)
 //Menu.setApplicationMenu(menu);
-app.dock.setIcon(path.join(__dirname, '/img/logo.png'));
+nativeImage.createFromDataURL(path.join(__dirname, '/img/logo.png'));
 const createWindow = () => {
   // Create the browser window
   
   win = new BrowserWindow({
     width: 1000,
     height: 600,
-    icon: path.join(__dirname, '/img/logo.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
     },
+    icon: path.join(__dirname, '/img/logo.png')
   });
   // and load the index.html of the app.
   win.loadFile(path.join(__dirname, 'index.html'));
-  //win.loadURL('http://www.pounoumem.fr/');
   
   // Open the DevTools.
   //win.webContents.openDevTools();
