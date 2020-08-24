@@ -13,9 +13,7 @@ log.info('App starting...');
 const server = 'https://pounoumem.vercel.app/';
 const url = `${server}/update/${process.platform}/${app.getVersion()}`;
 autoUpdater.setFeedURL({ url });
-setInterval(() => {
-  autoUpdater.checkForUpdates()
-}, 60000);
+
 require('update-electron-app')();
 
 autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
@@ -82,7 +80,9 @@ const createWindow = () => {
   });
   // and load the index.html of the app.
   win.loadFile(path.join(__dirname, 'index.html'));
-  
+  setInterval(() => {
+    autoUpdater.checkForUpdates()
+  }, 60000);
   // Open the DevTools.
   //win.webContents.openDevTools();
 };
