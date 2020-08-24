@@ -39,33 +39,7 @@ function sendStatusToWindow(text) {
   log.info(text);
   win.webContents.send('message', text);
 }
-let temp = [
-  {
-    label: 'aide',
-    submenu: [
-      {
-        label:'Apprendre plus', 
-        click() { 
-          shell.openExternal('www.pounoumenm.fr')
-        } 
-      },
-      {
-        label:'Documentation', 
-        click() { 
-          shell.openExternal('http://www.pounoumenm.fr/documentation')
-        } 
-      },
-      {
-        label:'Communauté', 
-        click() {
-          shell.openExternal('http://www.pounoumenm.fr/forum')
-        }
-      }
-    ]
-  }
-]
-let menu = Menu.buildFromTemplate(temp)
-//Menu.setApplicationMenu(menu);
+Menu.setApplicationMenu(require('./menu'));
 nativeImage.createFromDataURL(path.join(__dirname, '/img/logo.png'));
 const createWindow = () => {
   // Create the browser window
@@ -76,13 +50,19 @@ const createWindow = () => {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
     },
-    icon: path.join(__dirname, '/img/logo.png')
+    icon: path.join(__dirname, '/img/logo.png'),
+    frame: false,
+    titleBarStyle: "hidden",
+    show: false,
   });
   // and load the index.html of the app.
   win.loadFile(path.join(__dirname, 'index.html'));
   setInterval(() => {
     autoUpdater.checkForUpdates()
   }, 60000);
+  win.once('ready-to-show', () => {
+    win.show()
+  })
   // Open the DevTools.
   //win.webContents.openDevTools();
 };
