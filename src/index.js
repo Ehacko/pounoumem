@@ -1,9 +1,8 @@
 const 
   { app, BrowserWindow, Menu, autoUpdater, nativeImage, dialog, Tray } = require('electron'),
   path = require('path'),
-  log = require('electron-log'),
-  appIcon = new Tray(path.join(__dirname, '/img/logo.png'));
-// Handle creating/removing shortcuts on Windows when installing/uninstalling.
+  log = require('electron-log');
+  // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
   app.quit();
 }
@@ -20,7 +19,8 @@ Menu.setApplicationMenu(require('./menu'));
 nativeImage.createFromDataURL(path.join(__dirname, '/img/logo.png'));
 const createWindow = () => {
   // Create the browser window
-  
+  appIcon = new Tray(path.join(__dirname, '/img/logo.png'));
+  console.log(appIcon);
   win = new BrowserWindow({
     width: 1000,
     height: 600,
@@ -41,7 +41,7 @@ const createWindow = () => {
     win.show()
   })
   // Open the DevTools.
-  //win.webContents.openDevTools();
+  win.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished
