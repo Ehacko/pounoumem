@@ -1,6 +1,6 @@
 {
-  "name": "pounoumem",
-  "productName": "pounoumem",
+  "name": "pounoumenm",
+  "productName": "pounoumenm",
   "version": "1.0.2",
   "description": "My Electron application description",
   "main": "src/index.js",
@@ -22,7 +22,7 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "pounoumem"
+            "name": "pounoumenm"
           }
         },
         {

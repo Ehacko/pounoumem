@@ -38,10 +38,6 @@ const {shell, Menu} = require('electron')
           role: 'reload'
         },
         {
-          label: 'Inspecteur',
-          role: 'toggledevtools'
-        },
-        {
           type: 'separator'
         },
         {

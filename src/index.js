@@ -1,8 +1,8 @@
-const { app, BrowserWindow, Menu, shell, autoUpdater, nativeImage, dialog } = require('electron');
-const electron = require('electron');
-const path = require('path');
-const log = require('electron-log');
-console.log(electron);
+const 
+  { app, BrowserWindow, Menu, autoUpdater, nativeImage, dialog, Tray } = require('electron'),
+  path = require('path'),
+  log = require('electron-log'),
+  appIcon = new Tray(path.join(__dirname, '/img/logo.png'));
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
   app.quit();
@@ -16,10 +16,6 @@ autoUpdater.setFeedURL({ url });
 
 let win;
 
-function sendStatusToWindow(text) {
-  log.info(text);
-  win.webContents.send('message', text);
-}
 Menu.setApplicationMenu(require('./menu'));
 nativeImage.createFromDataURL(path.join(__dirname, '/img/logo.png'));
 const createWindow = () => {
