@@ -2,7 +2,7 @@
   "name": "pounoumenm",
   "productName": "pounoumenm",
   "version": "1.0.2",
-  "description": "My Electron application description",
+  "description": "Une application c",
   "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",

@@ -12,7 +12,7 @@ replaceText = (selector, text) => {
 let xhr = new XMLHttpRequest();
 xhr.open('POST', "https://mondesperdus.com/Api/Bookmark/writeden", true);
 xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-xhr.onreadystatechange =()=> { if(xhr.readyState == 4 && xhr.status == 200) { alert(xhr.responseText); } }
+// xhr.onreadystatechange =()=> { if(xhr.readyState == 4 && xhr.status == 200) { alert(xhr.responseText); } }
 xhr.send(JSON.stringify(data));
 console.log(JSON.stringify(data));
 window.addEventListener('DOMContentLoaded', () => {

@@ -1,5 +1,5 @@
 const 
-  { app, BrowserWindow, Menu, autoUpdater, nativeImage, dialog, Tray } = require('electron'),
+  { app, BrowserWindow, Menu, autoUpdater, nativeImage, dialog } = require('electron'),
   path = require('path'),
   log = require('electron-log');
   // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -9,28 +9,30 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
 log.info('App starting...');
-const server = 'https://pounoumem.vercel.app';
-const url = `${server}/update/${process.platform}/${app.getVersion()}`;
-autoUpdater.setFeedURL({ url });
+// const server = 'serveur_name';
+// const url = `${server}/update/${process.platform}/${app.getVersion()}`;
+// autoUpdater.setFeedURL({ url });
 
-let win;
+let win, appIcon;
 
 Menu.setApplicationMenu(require('./menu'));
-nativeImage.createFromDataURL(path.join(__dirname, '/img/logo.png'));
+appIcon = nativeImage.createFromPath(path.join(__dirname, '/img/logo512.png'));
 const createWindow = () => {
   // Create the browser window
-  appIcon = new Tray(path.join(__dirname, '/img/logo.png'));
   console.log(appIcon);
   win = new BrowserWindow({
     width: 1000,
+    minWidth: 400,
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
     },
-    icon: path.join(__dirname, '/img/logo.png'),
+    // icon: path.join(__dirname, '/img/logo.png'),
+    icon: appIcon,
     frame: false,
     titleBarStyle: "hidden",
     show: false,
+    transparent: true,
   });
   // and load the index.html of the app.
   win.loadFile(path.join(__dirname, 'index.html'));
